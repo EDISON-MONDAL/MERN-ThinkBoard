@@ -3,7 +3,6 @@ import toast from 'react-hot-toast'
 import { useNavigate, useParams, Link } from 'react-router'
 import api from '../lib/axios.js'
 import { ArrowLeftIcon, LoaderIcon, Trash2Icon } from 'lucide-react'
-import { set } from 'mongoose'
 
 const NoteDetailPage = () => {
   const [note, setNote] = useState(null)
