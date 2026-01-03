@@ -2,7 +2,8 @@ import express from 'express';
 import notesRoutes from './routes/notesRoutes.js';
 import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
-import rateLimiter from './middleware/rateLimiter.js';
+// import rateLimiter from './middleware/rateLimiter.js';
+import expressRateLimiter from './middleware/expressRateLimiter.js'
 import cors from 'cors';
 import path from 'path';
 
@@ -25,11 +26,16 @@ if(process.env.NODE_ENV !== 'production'){
 
 app.use(express.json());
 
-app.use(rateLimiter);
+/* ------------- rate limiting -------------- */
+// app.use(rateLimiter);
+
+app.set("trust proxy", 1);
+
+app.use("/api/notes", expressRateLimiter, notesRoutes);
+/* ------------- rate limiting -------------- */
 
 
 
-app.use('/api/notes', notesRoutes);
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static(path.join(__dirname, "../frontend/dist")));
